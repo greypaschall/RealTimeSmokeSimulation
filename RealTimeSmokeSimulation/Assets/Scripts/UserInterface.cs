@@ -1,11 +1,17 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class UserInterface : MonoBehaviour
 {
     public Slider emissionRateSlider;
     public Slider windSpeedSlider;
     public Slider gravitySlider;
+
+    public TextMeshProUGUI emissionRateValueText;
+    public TextMeshProUGUI windSpeedValueText;
+    public TextMeshProUGUI gravityValueText;
+
     public ParticleSystemComponent particleSystemComponent;
 
     void Start()
@@ -21,6 +27,7 @@ public class UserInterface : MonoBehaviour
         {
             emissionRateSlider.value = particleSystemComponent.emissionRate;
             emissionRateSlider.onValueChanged.AddListener(OnEmissionRateChanged);
+            UpdateEmissionText(emissionRateSlider.value);
         }
         else
         {
@@ -31,6 +38,7 @@ public class UserInterface : MonoBehaviour
         {
             windSpeedSlider.value = particleSystemComponent.windSpeed;
             windSpeedSlider.onValueChanged.AddListener(OnWindSpeedChanged);
+            UpdateWindText(windSpeedSlider.value);
         }
         else
         {
@@ -41,6 +49,7 @@ public class UserInterface : MonoBehaviour
         {
             gravitySlider.value = particleSystemComponent.gravityStrength;
             gravitySlider.onValueChanged.AddListener(OnGravityChanged);
+            UpdateGravityText(gravitySlider.value);
         }
         else
         {
@@ -52,8 +61,9 @@ public class UserInterface : MonoBehaviour
     {
         if (particleSystemComponent != null)
         {
-            float scaledValue = newValue * 10f; // Scale the slider value to match higher emissions
+            float scaledValue = newValue * 10f;
             particleSystemComponent.AdjustEmission(scaledValue);
+            UpdateEmissionText(scaledValue);
         }
     }
 
@@ -62,6 +72,7 @@ public class UserInterface : MonoBehaviour
         if (particleSystemComponent != null)
         {
             particleSystemComponent.AdjustWind(newValue);
+            UpdateWindText(newValue);
         }
     }
 
@@ -70,6 +81,31 @@ public class UserInterface : MonoBehaviour
         if (particleSystemComponent != null)
         {
             particleSystemComponent.AdjustGravity(newValue);
+            UpdateGravityText(newValue);
+        }
+    }
+
+    private void UpdateEmissionText(float value)
+    {
+        if (emissionRateValueText != null)
+        {
+            emissionRateValueText.text = $"{value:F1}";
+        }
+    }
+
+    private void UpdateWindText(float value)
+    {
+        if (windSpeedValueText != null)
+        {
+            windSpeedValueText.text = $"{value:F1}";
+        }
+    }
+
+    private void UpdateGravityText(float value)
+    {
+        if (gravityValueText != null)
+        {
+            gravityValueText.text = $"{value:F1}";
         }
     }
 }

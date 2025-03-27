@@ -1,24 +1,28 @@
 using UnityEngine;
+using System.IO;
 
 public class PerformanceMonitor : MonoBehaviour
 {
+    public ParticleSystem particleSystem;
+    private float timer = 0f;
+    private string logPath;
+
     void Start()
     {
-        Initialize();
-    }
-
-    public void Initialize()
-    {
-        Debug.Log("Performance Monitor Initialized");
-    }
-
-    public void MonitorPerformance()
-    {
-        Debug.Log("FPS: " + (1.0f / Time.deltaTime));
+        logPath = Application.dataPath + "/PerformanceData.csv";
+        File.WriteAllText(logPath, "Time,FPS,ParticleCount\n");
     }
 
     void Update()
     {
-        MonitorPerformance();
+        timer += Time.deltaTime;
+        if (timer >= 1.0f)
+        {
+            int particleCount = particleSystem.particleCount;
+            float fps = 1.0f / Time.deltaTime;
+            string line = $"{Time.time:F2},{fps:F2},{particleCount}\n";
+            File.AppendAllText(logPath, line);
+            timer = 0f;
+        }
     }
 }
