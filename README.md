@@ -12,9 +12,9 @@ A real-time smoke simulation using Unity's particle system and shaders.
 - Emission rate with slider (Needs adjustment)
 - Randomized particle turbulence using Perlin Noise equation
 - Implemented Dissipation using exponential decay (Needs tuning)
+- Performance monitoring and data collection
 
 # Implemented but not yet working:
-- Performance Monitoring
 - Shaders are implemented but need improvement
 - High quality Particle Textures
 
